@@ -308,26 +308,31 @@
         .countdown-container {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin: 40px auto;
+            gap: 60px; /* เพิ่ม gap ระหว่าง items */
+            margin: 60px auto; /* เพิ่ม margin บนล่าง */
             font-family: 'Prompt', sans-serif;
+            max-width: 800px; /* กำหนดความกว้างสูงสุด */
+            padding: 20px;
         }
 
         .countdown-item {
             text-align: center;
+            min-width: 100px; /* กำหนดความกว้างขั้นต่ำ */
         }
 
         .countdown-number {
-            font-size: 3em;
+            font-size: 4em; /* เพิ่มขนาดตัวเลข */
             font-weight: 300;
             color: var(--primary-color);
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            line-height: 1;
         }
 
         .countdown-label {
-            font-size: 0.9em;
+            font-size: 1em; /* เพิ่มขนาดตัวอักษร */
             color: #666;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .wedding-date {
@@ -337,21 +342,24 @@
             font-weight: 300;
         }
 
+        /* ปรับ responsive */
         @media (max-width: 768px) {
             .countdown-container {
-                gap: 15px;
+                gap: 30px;
+                padding: 10px;
+            }
+
+            .countdown-item {
+                min-width: 70px;
             }
 
             .countdown-number {
-                font-size: 2em;
+                font-size: 2.5em;
             }
 
             .countdown-label {
-                font-size: 0.7em;
-            }
-
-            .wedding-date {
-                font-size: 2em;
+                font-size: 0.8em;
+                letter-spacing: 1px;
             }
         }
 
@@ -647,23 +655,19 @@
 
         <div class="countdown-container fade-in">
             <div class="countdown-item">
-                <div class="countdown-number" id="weeks">14</div>
-                <div class="countdown-label">WEEKS</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="days">2</div>
+                <div class="countdown-number" id="days">00</div>
                 <div class="countdown-label">DAYS</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="hours">7</div>
+                <div class="countdown-number" id="hours">00</div>
                 <div class="countdown-label">HOURS</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="minutes">47</div>
+                <div class="countdown-number" id="minutes">00</div>
                 <div class="countdown-label">MIN</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="seconds">7</div>
+                <div class="countdown-number" id="seconds">00</div>
                 <div class="countdown-label">SEC</div>
             </div>
         </div>
@@ -779,13 +783,12 @@
         function startTimer() {
             function updateTimer() {
                 // กำหนดวันงานแต่งงาน (5 พฤษภาคม 2568 เวลา 8:00 น.)
-                const weddingDate = new Date(2025, 4, 5, 8, 0, 0); // เดือนเริ่มจาก 0 (4 = พฤษภาคม)
+                const weddingDate = new Date(2025, 4, 5, 8, 0, 0);
                 const now = new Date();
                 const diff = weddingDate.getTime() - now.getTime();
 
                 if (diff < 0) {
                     // ถ้าถึงวันงานแล้ว
-                    document.getElementById('weeks').innerHTML = "00";
                     document.getElementById('days').innerHTML = "00";
                     document.getElementById('hours').innerHTML = "00";
                     document.getElementById('minutes').innerHTML = "00";
@@ -798,16 +801,13 @@
                 const oneMinute = oneSecond * 60;
                 const oneHour = oneMinute * 60;
                 const oneDay = oneHour * 24;
-                const oneWeek = oneDay * 7;
 
-                const weeks = Math.floor(diff / oneWeek);
-                const days = Math.floor((diff % oneWeek) / oneDay);
+                const days = Math.floor(diff / oneDay);
                 const hours = Math.floor((diff % oneDay) / oneHour);
                 const minutes = Math.floor((diff % oneHour) / oneMinute);
                 const seconds = Math.floor((diff % oneMinute) / oneSecond);
 
                 // อัพเดทการแสดงผล
-                document.getElementById('weeks').innerHTML = weeks < 10 ? "0" + weeks : weeks;
                 document.getElementById('days').innerHTML = days < 10 ? "0" + days : days;
                 document.getElementById('hours').innerHTML = hours < 10 ? "0" + hours : hours;
                 document.getElementById('minutes').innerHTML = minutes < 10 ? "0" + minutes : minutes;
@@ -856,8 +856,8 @@
                 title: 'Cream & Game Wedding Celebration',
                 description: 'Wedding Celebration of Cream & Game at โรงแรมร้อยทองรีสอร์ท พัทลุง',
                 location: '375 ม.1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง',
-                start: '20250505T080000',  // 8:00 AM
-                end: '20250505T150000'     // 3:00 PM
+                start: '20250505',  // All day event - ไม่ต้องระบุเวลา
+                end: '20250506'     // วันถัดไป เพราะเป็น all day event
             };
 
             const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}&dates=${event.start}/${event.end}`;
@@ -869,8 +869,8 @@
                 title: 'Cream & Game Wedding Celebration',
                 description: 'Wedding Celebration of Cream & Game at โรงแรมร้อยทองรีสอร์ท พัทลุง',
                 location: '375 ม.1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง',
-                start: '2025-05-05T08:00:00',  // 8:00 AM
-                end: '2025-05-05T15:00:00'     // 3:00 PM
+                start: '2025-05-05',  // All day event
+                end: '2025-05-06'     // วันถัดไป
             };
 
             const icsFile = `BEGIN:VCALENDAR
@@ -879,8 +879,8 @@ BEGIN:VEVENT
 SUMMARY:${event.title}
 DESCRIPTION:${event.description}
 LOCATION:${event.location}
-DTSTART:${event.start.replace(/[-:]/g, '')}Z
-DTEND:${event.end.replace(/[-:]/g, '')}Z
+DTSTART;VALUE=DATE:${event.start.replace(/-/g, '')}
+DTEND;VALUE=DATE:${event.end.replace(/-/g, '')}
 END:VEVENT
 END:VCALENDAR`;
 
