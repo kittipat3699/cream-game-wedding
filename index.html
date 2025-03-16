@@ -90,6 +90,7 @@
             transition: all 0.3s ease;
             font-size: 0.9em;
             border: 2px solid var(--primary-color);
+            cursor: pointer;
         }
 
         .button:hover {
@@ -447,6 +448,155 @@
                 height: 30px;
             }
         }
+
+        /* ปรับปรุง style สำหรับ calendar dropdown */
+        .calendar-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .calendar-options {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 250px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 15px;
+            padding: 8px;
+            z-index: 1000;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .calendar-options.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .calendar-options div {
+            color: var(--text-color);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            margin: 4px 0;
+            cursor: pointer;
+            font-weight: 300;
+        }
+
+        .calendar-options div:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .calendar-options div:hover .material-icons {
+            transform: scale(1.1);
+        }
+
+        .calendar-options .material-icons {
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+            font-size: 20px;
+        }
+
+        /* เพิ่ม arrow ชี้ขึ้น */
+        .calendar-options::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        /* ปรับแต่งสำหรับ mobile */
+        @media (max-width: 768px) {
+            .calendar-options {
+                position: fixed;
+                bottom: 80px;
+                margin-top: 0;
+                width: calc(100% - 32px);
+                max-width: none;
+                border-radius: 20px;
+                background-color: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+            }
+
+            .calendar-options::before {
+                display: none;
+            }
+
+            .calendar-options div {
+                padding: 16px 20px;
+                font-size: 1.1em;
+            }
+        }
+
+        /* เพิ่ม style สำหรับ dialog */
+        .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 90%;
+            width: 300px;
+            z-index: 2001;
+        }
+
+        .dialog h3 {
+            color: var(--primary-color);
+            margin: 0 0 15px 0;
+            font-size: 1.5em;
+            font-weight: 300;
+        }
+
+        .dialog p {
+            color: #666;
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+        }
+
+        .dialog-close {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .dialog-close:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -509,10 +659,26 @@
         </div>
 
         <!-- Calendar Button -->
-        <a href="#" class="button fade-in delay-1">
-            <span class="material-icons">event</span>
-            Add to Calendar
-        </a>
+        <div class="calendar-dropdown">
+            <div class="button fade-in delay-1" onclick="toggleCalendarOptions()">
+                <span class="material-icons">event</span>
+                Add to Calendar
+            </div>
+            <div class="calendar-options">
+                <div onclick="addToGoogleCalendar(); return false;">
+                    <span class="material-icons">calendar_month</span>
+                    Google Calendar
+                </div>
+                <div onclick="addToAppleCalendar(); return false;">
+                    <span class="material-icons">calendar_today</span>
+                    Apple Calendar
+                </div>
+                <div onclick="addToOutlookCalendar(); return false;">
+                    <span class="material-icons">event_note</span>
+                    Outlook Calendar
+                </div>
+            </div>
+        </div>
 
         <!-- RSVP Section -->
         <div class="section-header">
@@ -523,7 +689,7 @@
             <p>Hope to see you at our wedding</p>
         </div>
 
-        <a href="#" class="button fade-in delay-3">
+        <a href="#" class="button fade-in delay-3" onclick="showDialog(); return false;">
             กดเพื่อลงทะเบียนเข้าร่วมงาน
         </a>
 
@@ -655,6 +821,150 @@
 
         // เริ่ม timer เมื่อโหลดหน้าเว็บ
         startTimer();
+    </script>
+
+    <!-- เพิ่ม JavaScript สำหรับ calendar functions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarButton = document.querySelector('.calendar-dropdown .button');
+            const options = document.querySelector('.calendar-options');
+            let isOpen = false;
+
+            calendarButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                isOpen = !isOpen;
+                options.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.calendar-dropdown') && isOpen) {
+                    options.classList.remove('show');
+                    isOpen = false;
+                }
+            });
+
+            // ป้องกันการปิด dropdown เมื่อคลิกที่ตัวเลือก
+            options.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+
+        // Calendar functions
+        function addToGoogleCalendar() {
+            const event = {
+                title: 'Cream & Game Wedding Celebration',
+                description: 'Wedding Celebration of Cream & Game at โรงแรมร้อยทองรีสอร์ท พัทลุง',
+                location: '375 ม.1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง',
+                start: '20240505T090000',
+                end: '20240505T220000'
+            };
+
+            const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}&dates=${event.start}/${event.end}`;
+            window.open(url, '_blank');
+        }
+
+        function addToAppleCalendar() {
+            const event = {
+                title: 'Cream & Game Wedding Celebration',
+                description: 'Wedding Celebration of Cream & Game at โรงแรมร้อยทองรีสอร์ท พัทลุง',
+                location: '375 ม.1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง',
+                start: '2024-05-05T09:00:00',
+                end: '2024-05-05T22:00:00'
+            };
+
+            const icsFile = `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}
+LOCATION:${event.location}
+DTSTART:${event.start.replace(/[-:]/g, '')}Z
+DTEND:${event.end.replace(/[-:]/g, '')}Z
+END:VEVENT
+END:VCALENDAR`;
+
+            const blob = new Blob([icsFile], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'wedding_event.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function addToOutlookCalendar() {
+            addToAppleCalendar();
+        }
+    </script>
+
+    <script>
+        function toggleCalendarOptions() {
+            const options = document.querySelector('.calendar-options');
+            options.classList.toggle('show');
+
+            // ปิด dropdown เมื่อคลิกที่อื่น
+            document.addEventListener('click', function closeDropdown(e) {
+                if (!e.target.closest('.calendar-dropdown')) {
+                    options.classList.remove('show');
+                    document.removeEventListener('click', closeDropdown);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calendarButton = document.querySelector('.calendar-dropdown .button');
+            const options = document.querySelector('.calendar-options');
+            let isOpen = false;
+
+            calendarButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                isOpen = !isOpen;
+                options.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.calendar-dropdown') && isOpen) {
+                    options.classList.remove('show');
+                    isOpen = false;
+                }
+            });
+
+            // ป้องกันการปิด dropdown เมื่อคลิกที่ตัวเลือก
+            options.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+
+    <!-- เพิ่ม dialog HTML -->
+    <div class="dialog-overlay" id="comingSoonDialog">
+        <div class="dialog">
+            <h3>Coming Soon!</h3>
+            <p>ระบบลงทะเบียนกำลังจัดเตรียมอยู่<br>จะเปิดให้ใช้งานเร็วๆ นี้ค่ะ/ครับ</p>
+            <button class="dialog-close" onclick="closeDialog()">ตกลง</button>
+        </div>
+    </div>
+
+    <!-- เพิ่ม JavaScript สำหรับ dialog -->
+    <script>
+        function showDialog() {
+            document.getElementById('comingSoonDialog').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // ป้องกันการ scroll
+        }
+
+        function closeDialog() {
+            document.getElementById('comingSoonDialog').style.display = 'none';
+            document.body.style.overflow = ''; // คืนค่า scroll
+        }
+
+        // ปิด dialog เมื่อคลิกที่พื้นหลัง
+        document.getElementById('comingSoonDialog').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDialog();
+            }
+        });
     </script>
 </body>
 </html>
