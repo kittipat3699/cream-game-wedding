@@ -643,7 +643,7 @@
           LET'S CELEBRATE TOGETHER ON OUR SPECIAL DAY IN
         </div>
 
-        <h2 class="wedding-date fade-in">5 MAY 2024</h2>
+        <h2 class="wedding-date fade-in">5 MAY 2025</h2>
 
         <div class="countdown-container fade-in">
             <div class="countdown-item">
@@ -777,14 +777,36 @@
     <!-- แก้ไขส่วน JavaScript countdown -->
     <script>
         function startTimer() {
-            // เริ่มต้นที่ค่าที่กำหนด
-            let weeks = 14;
-            let days = 2;
-            let hours = 7;
-            let minutes = 47;
-            let seconds = 7;
+            function updateTimer() {
+                // กำหนดวันงานแต่งงาน (5 พฤษภาคม 2568 เวลา 8:00 น.)
+                const weddingDate = new Date(2025, 4, 5, 8, 0, 0); // เดือนเริ่มจาก 0 (4 = พฤษภาคม)
+                const now = new Date();
+                const diff = weddingDate.getTime() - now.getTime();
 
-            function updateDisplay() {
+                if (diff < 0) {
+                    // ถ้าถึงวันงานแล้ว
+                    document.getElementById('weeks').innerHTML = "00";
+                    document.getElementById('days').innerHTML = "00";
+                    document.getElementById('hours').innerHTML = "00";
+                    document.getElementById('minutes').innerHTML = "00";
+                    document.getElementById('seconds').innerHTML = "00";
+                    return;
+                }
+
+                // คำนวณเวลาที่เหลือ
+                const oneSecond = 1000;
+                const oneMinute = oneSecond * 60;
+                const oneHour = oneMinute * 60;
+                const oneDay = oneHour * 24;
+                const oneWeek = oneDay * 7;
+
+                const weeks = Math.floor(diff / oneWeek);
+                const days = Math.floor((diff % oneWeek) / oneDay);
+                const hours = Math.floor((diff % oneDay) / oneHour);
+                const minutes = Math.floor((diff % oneHour) / oneMinute);
+                const seconds = Math.floor((diff % oneMinute) / oneSecond);
+
+                // อัพเดทการแสดงผล
                 document.getElementById('weeks').innerHTML = weeks < 10 ? "0" + weeks : weeks;
                 document.getElementById('days').innerHTML = days < 10 ? "0" + days : days;
                 document.getElementById('hours').innerHTML = hours < 10 ? "0" + hours : hours;
@@ -792,41 +814,10 @@
                 document.getElementById('seconds').innerHTML = seconds < 10 ? "0" + seconds : seconds;
             }
 
-            function countdown() {
-                if (seconds > 0) {
-                    seconds--;
-                } else {
-                    seconds = 59;
-                    if (minutes > 0) {
-                        minutes--;
-                    } else {
-                        minutes = 59;
-                        if (hours > 0) {
-                            hours--;
-                        } else {
-                            hours = 23;
-                            if (days > 0) {
-                                days--;
-                            } else {
-                                days = 6;
-                                if (weeks > 0) {
-                                    weeks--;
-                                } else {
-                                    // หยุดเมื่อนับถึงศูนย์
-                                    clearInterval(timerInterval);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-                updateDisplay();
-            }
-
-            // อัพเดทการแสดงผลครั้งแรก
-            updateDisplay();
-            // เริ่มนับถอยหลังทุกวินาที
-            const timerInterval = setInterval(countdown, 1000);
+            // อัพเดทครั้งแรก
+            updateTimer();
+            // อัพเดททุกวินาที
+            setInterval(updateTimer, 1000);
         }
 
         // เริ่ม timer เมื่อโหลดหน้าเว็บ
@@ -865,8 +856,8 @@
                 title: 'Cream & Game Wedding Celebration',
                 description: 'Wedding Celebration of Cream & Game at โรงแรมร้อยทองรีสอร์ท พัทลุง',
                 location: '375 ม.1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง',
-                start: '20240505T080000',  // 8:00 AM
-                end: '20240505T150000'     // 3:00 PM
+                start: '20250505T080000',  // 8:00 AM
+                end: '20250505T150000'     // 3:00 PM
             };
 
             const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.location)}&dates=${event.start}/${event.end}`;
@@ -878,8 +869,8 @@
                 title: 'Cream & Game Wedding Celebration',
                 description: 'Wedding Celebration of Cream & Game at โรงแรมร้อยทองรีสอร์ท พัทลุง',
                 location: '375 ม.1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง',
-                start: '2024-05-05T08:00:00',  // 8:00 AM
-                end: '2024-05-05T15:00:00'     // 3:00 PM
+                start: '2025-05-05T08:00:00',  // 8:00 AM
+                end: '2025-05-05T15:00:00'     // 3:00 PM
             };
 
             const icsFile = `BEGIN:VCALENDAR
