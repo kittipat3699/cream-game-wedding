@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cream & Game | Wedding Invitation</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #9c8164;
+            --text-color: #333;
+            --background-color: #fff;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding-bottom: 70px; /* ให้เนื้อหาไม่ทับกับ navigation */
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .header-section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .header-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-bigger {
+            margin: 0 auto 40px auto;
+            font-size: 2em;
+            line-height: 1.8;
+            max-width: 600px;
+            color: #666;
+        }
+
+        .main-text {
+            margin: 40px auto;
+            font-size: 1.1em;
+            line-height: 1.8;
+            max-width: 600px;
+            color: #666;
+        }
+
+        .highlight-text {
+            margin: 40px auto;
+            max-width: 600px;
+        }
+
+        .highlight-text strong {
+            font-style: normal;
+            color: var(--text-color);
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 25px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            border: 2px solid var(--primary-color);
+        }
+
+        .button:hover {
+            background-color: transparent;
+            color: var(--primary-color);
+        }
+
+        .location-section {
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+
+        .material-icons {
+            vertical-align: middle;
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 0.8em;
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-item .material-icons {
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .gallery img:hover {
+            transform: translateY(-5px);
+        }
+
+        /* แก้ไข style สำหรับ logo */
+        .logo-container {
+            position: absolute;  /* เปลี่ยนจาก fixed เป็น absolute */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo {
+            height: 80px;
+            width: auto;
+            margin-bottom: 10px;
+        }
+
+        .logo-full {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-full-bigger {
+            height: 250px;
+            width: auto;
+        }
+
+        /* เพิ่ม style สำหรับส่วนชื่อคู่บ่าวสาว */
+        .couple-names {
+            text-align: center;
+            margin: 40px auto;
+            color: var(--primary-color);
+        }
+
+        .couple-names h1 {
+            font-size: 1.8em;
+            font-weight: 300;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0;
+            }
+
+            .main-text, .highlight-text, .main-bigger {
+                padding: 0 20px;
+                font-size: 1em;
+            }
+
+            .button {
+                padding: 10px 20px;
+                font-size: 0.85em;
+            }
+
+            .nav-item {
+                margin: 0 10px;
+                font-size: 0.7em;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .gallery img {
+                height: 150px;
+            }
+
+            .logo {
+                height: 60px;
+            }
+            
+            .logo-full {
+                height: 30px;
+            }
+
+            .couple-names h1 {
+                font-size: 1.4em;
+            }
+        }
+
+        /* เพิ่ม Animation styles */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.6s ease-out;
+        }
+
+        .slide-in-left.visible,
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease-out;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ปรับ delay ให้แต่ละ element */
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+        .delay-3 { transition-delay: 0.6s; }
+
+        /* เพิ่ม style สำหรับ countdown */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px auto;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 3em;
+            font-weight: 300;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            font-size: 0.9em;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .wedding-date {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin: 20px 0;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .countdown-container {
+                gap: 15px;
+            }
+
+            .countdown-number {
+                font-size: 2em;
+            }
+
+            .countdown-label {
+                font-size: 0.7em;
+            }
+
+            .wedding-date {
+                font-size: 2em;
+            }
+        }
+
+        /* แก้ไข style สำหรับ section title */
+        .section-title {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin: 80px 0 40px 0;
+            font-weight: 300;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+            padding: 0 30px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40px;
+            height: 1px;
+            background-color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .section-title::before {
+            left: -20px;
+        }
+
+        .section-title::after {
+            right: -20px;
+        }
+
+        /* เพิ่ม style ใหม่เพื่อแยก title ออกจากปุ่ม */
+        .section-header {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* ปรับ margin ของ button ให้มีระยะห่างจาก title */
+        .button {
+            margin: 20px 10px;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5em;
+                margin: 30px 0 30px 0;
+                padding: 0 20px;
+            }
+
+            .section-title::before,
+            .section-title::after {
+                width: 25px;
+            }
+
+            .section-title::before {
+                left: -15px;
+            }
+
+            .section-title::after {
+                right: -15px;
+            }
+
+            .section-header {
+                margin-bottom: 30px;
+            }
+        }
+
+        /* เพิ่ม style ใหม่ */
+        .dress-code {
+            margin: 0 auto;
+            max-width: 600px;
+            padding: 10px;
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .color-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .dress-code-text {
+            font-size: 1.2em;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .color-circle {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- สร้าง header section ใหม่ -->
+        <div class="header-section">
+            <img src="assets/images/Image2.jpg" alt="Wedding Header" class="header-image">
+            <!-- ย้าย logo มาอยู่ใน header section -->
+            <div class="logo-container">
+                <img src="assets/Logo-CG.png" alt="Logo CG" class="logo">
+                <br>
+                <img src="assets/Logo-full.png" alt="Logo Full" class="logo-full">
+            </div>
+        </div>
+
+        <img src="assets/Logo-full.png" alt="Logo Full" class="logo-full-bigger">
+
+        <div class="main-bigger fade-in">
+          THE HONOUR OF YOUR PRESENCE IS REQUESTED AT THE MARRIAGE CELEBRATION OF
+        </div>
+        <!-- เพิ่มส่วนชื่อคู่บ่าวสาว -->
+        <div class="couple-names">
+            <h1 class="slide-in-left">นางสาวกาญจนาพร บัวแสง</h1>
+            <img src="assets/Logo-CG.png" alt="Logo CG" class="logo">
+            <h1 class="slide-in-right">ส.ต.ท.ธนายุทธ บัวเนียม</h1>
+        </div>
+
+        <!-- Main Content -->
+        <!-- <div class="main-text fade-in">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+        </div> -->
+
+        <div class="main-bigger fade-in">
+          LET'S CELEBRATE TOGETHER ON OUR SPECIAL DAY IN
+        </div>
+
+        <h2 class="wedding-date fade-in">5 MAY 2024</h2>
+
+        <div class="countdown-container fade-in">
+            <div class="countdown-item">
+                <div class="countdown-number" id="weeks">14</div>
+                <div class="countdown-label">WEEKS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">2</div>
+                <div class="countdown-label">DAYS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">7</div>
+                <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">47</div>
+                <div class="countdown-label">MIN</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">7</div>
+                <div class="countdown-label">SEC</div>
+            </div>
+        </div>
+
+        <!-- Calendar Button -->
+        <a href="#" class="button fade-in delay-1">
+            <span class="material-icons">event</span>
+            Add to Calendar
+        </a>
+
+        <!-- RSVP Section -->
+        <div class="section-header">
+            <h2 class="section-title fade-in">RSVP</h2>
+        </div>
+        <div class="highlight-text fade-in delay-2">
+            <strong>"เพื่อให้เราสามารถวางแผนในการดูแลท่าน ซึ่งเป็นแขกคนสำคัญได้อย่างเต็มที่ ขอรบกวนทุกท่านทำแบบตอบรับการเข้าร่วมงานให้เราด้วยนะคะ/ครับ"</strong>
+            <p>Hope to see you at our wedding</p>
+        </div>
+
+        <a href="#" class="button fade-in delay-3">
+            กดเพื่อลงทะเบียนเข้าร่วมงาน
+        </a>
+
+        <!-- Location Section -->
+        <div class="section-header">
+            <h2 class="section-title fade-in">LOCATION</h2>
+        </div>
+        <div class="location-section fade-in">
+            <h2><span class="material-icons">location_on</span>โรงแรมร้อยทองรีสอร์ท พัทลุง</h2>
+            <p>375 ม .1 ตำบล แพรกหา อำเภอ ควนขนุน พัทลุง</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.2180226699243!2d100.03034079999999!3d7.659692599999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d7d847fa1dae1%3A0xe07a501ea546fb7e!2z4Lij4LmJ4Lit4Lii4LiX4Lit4LiH4Lij4Li14Liq4Lit4Lij4LmM4LiX!5e0!3m2!1sth!2sth!4v1742142628450!5m2!1sth!2sth" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <a href="https://maps.app.goo.gl/yAvy3ojgBNVM9syk7" class="button">
+                <span class="material-icons">directions</span>
+                Direction
+            </a>
+        </div>
+
+        <!-- Agenda Section -->
+        <h2 class="section-title fade-in">SCHEDULE</h2>
+        <div class="agenda-section fade-in">
+            <img src="assets/agenda.png" alt="Wedding Agenda" style="max-width: 100%; height: auto; margin: 40px auto; display: block; border-radius: 10px;">
+        </div>
+
+        <!-- เพิ่ม section DRESS CODE หลังจาก wedding date และก่อน RSVP -->
+        <h2 class="section-title fade-in">DRESS CODE</h2>
+        <div class="dress-code fade-in">
+            <div class="color-palette">
+                <div class="color-circle" style="background-color: #E5D3B7;"></div>
+                <div class="color-circle" style="background-color: #F5E6D3;"></div>
+                <div class="color-circle" style="background-color: #E9D7C7;"></div>
+                <div class="color-circle" style="background-color: #D4C4B7;"></div>
+                <div class="color-circle" style="background-color: #9F8E82;"></div>
+            </div>
+        </div>
+
+        <!-- Gallery -->
+        <h2 class="section-title fade-in">GALLERY</h2>
+        <div class="gallery">
+            <img src="assets/images/Image1.jpg" alt="Wedding Gallery 1" class="fade-in">
+            <img src="assets/images/Image2.jpg" alt="Wedding Gallery 2" class="fade-in delay-1">
+            <img src="assets/images/Image3.jpg" alt="Wedding Gallery 3" class="fade-in delay-2">
+            <img src="assets/images/Image4.jpg" alt="Wedding Gallery 4" class="fade-in delay-3">
+        </div>
+
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navigation">
+        <a href="#" class="nav-item"><span class="material-icons">favorite</span> Home</a>
+        <a href="#" class="nav-item"><span class="material-icons">calendar_month</span> Program</a>
+        <a href="#" class="nav-item"><span class="material-icons">image</span> Gallery</a>
+        <a href="#" class="nav-item"><span class="material-icons">location_on</span> Location</a>
+    </nav>
+
+    <!-- เพิ่ม JavaScript สำหรับ Intersection Observer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            // เลือก elements ที่จะ animate
+            const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+            animatedElements.forEach(element => observer.observe(element));
+        });
+    </script>
+
+    <!-- แก้ไขส่วน JavaScript countdown -->
+    <script>
+        function startTimer() {
+            // เริ่มต้นที่ค่าที่กำหนด
+            let weeks = 14;
+            let days = 2;
+            let hours = 7;
+            let minutes = 47;
+            let seconds = 7;
+
+            function updateDisplay() {
+                document.getElementById('weeks').innerHTML = weeks < 10 ? "0" + weeks : weeks;
+                document.getElementById('days').innerHTML = days < 10 ? "0" + days : days;
+                document.getElementById('hours').innerHTML = hours < 10 ? "0" + hours : hours;
+                document.getElementById('minutes').innerHTML = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById('seconds').innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            }
+
+            function countdown() {
+                if (seconds > 0) {
+                    seconds--;
+                } else {
+                    seconds = 59;
+                    if (minutes > 0) {
+                        minutes--;
+                    } else {
+                        minutes = 59;
+                        if (hours > 0) {
+                            hours--;
+                        } else {
+                            hours = 23;
+                            if (days > 0) {
+                                days--;
+                            } else {
+                                days = 6;
+                                if (weeks > 0) {
+                                    weeks--;
+                                } else {
+                                    // หยุดเมื่อนับถึงศูนย์
+                                    clearInterval(timerInterval);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+                updateDisplay();
+            }
+
+            // อัพเดทการแสดงผลครั้งแรก
+            updateDisplay();
+            // เริ่มนับถอยหลังทุกวินาที
+            const timerInterval = setInterval(countdown, 1000);
+        }
+
+        // เริ่ม timer เมื่อโหลดหน้าเว็บ
+        startTimer();
+    </script>
+</body>
+</html>
+
